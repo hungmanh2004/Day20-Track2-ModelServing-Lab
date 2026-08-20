@@ -21,3 +21,8 @@ genuinely packing concurrent requests into shared decode steps.
 
 _What was the peak batch width, and does it match the effective concurrency in
 `02-server-results.md`? If the two disagree, which do you trust and why?_
+
+Độ rộng lô cực đại lý thuyết: Là 4. Con số này được giới hạn cứng bởi tham số cấu hình máy chủ --parallel 4.
+Mức độ đồng thời hiệu dụng đạt đỉnh ở mức 3.92 (thể hiện qua chỉ số n_busy_slots_per_decode).
+
+Hai giá trị này không khớp nhau hoàn toàn (4 so với 3.92). Tôi tin tưởng vào giá trị đồng thời hiệu dụng (3.92) hơn.
