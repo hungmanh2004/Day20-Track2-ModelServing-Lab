@@ -66,10 +66,15 @@ def main() -> int:
         print(f"  endpoints: http://localhost:{port}/v1/embeddings")
     print(f"\n  {' '.join(cmd)}\n")
 
-    try:
-        os.execv(cmd[0], cmd)          # hand the terminal over; Ctrl-C stops the server
-    except OSError:
-        return subprocess.run(cmd, check=False).returncode
+    if sys.platform != "win32":
+        try:
+            os.execv(cmd[0], cmd)      # hand the terminal over; Ctrl-C stops the server
+        except OSError:
+            pass
+    # Windows' os.execv joins argv with plain spaces (no quoting), which breaks
+    # any path containing a space -- go through subprocess.run instead, which
+    # quotes each argument correctly.
+    return subprocess.run(cmd, check=False).returncode
 
 
 if __name__ == "__main__":
